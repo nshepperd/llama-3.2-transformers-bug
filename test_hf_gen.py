@@ -66,6 +66,9 @@ processor = AutoProcessor.from_pretrained(model_id)
 
 image = Image.open("llama-models/llama_models/scripts/resources/dog.jpg")
 
+# Note: <|begin_of_text|> *before* <|image|> results in 1 token that can't see the image,
+# which is what triggers the issue here.(the same would occur in any dialogue that had an 
+# image added halfway through).
 input_text = "<|begin_of_text|><|image|>If I had to write a haiku for this one"
 inputs = processor(
     text=[input_text], images=[[image]], add_special_tokens=False, return_tensors="pt"
