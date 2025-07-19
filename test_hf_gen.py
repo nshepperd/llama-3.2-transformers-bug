@@ -72,7 +72,7 @@ image = Image.open("llama-models/llama_models/scripts/resources/dog.jpg")
 # Note: <|begin_of_text|> *before* <|image|> results in 1 token that can't see the image,
 # which is what triggers the issue here.(the same would occur in any dialogue that had an 
 # image added halfway through).
-input_text = "<|begin_of_text|><|image|>If I had to write a haiku for this one"
+input_text = "<|begin_of_text|>Let's write a poem.<|image|>If I had to write a haiku for this one"
 inputs = processor(
     text=[input_text], images=[[image]], add_special_tokens=False, return_tensors="pt"
 ).to(model.device)
@@ -80,5 +80,5 @@ prompt_len = inputs.input_ids.shape[1]
 
 with torch.no_grad():
     print(processor.decode(inputs.input_ids[0]))
-    output = model.generate(**inputs, max_new_tokens=200, do_sample=False)
+    output = model.generate(**inputs, max_new_tokens=100, do_sample=False)
     print(processor.decode(output[0, prompt_len:]))

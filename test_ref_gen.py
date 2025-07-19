@@ -29,7 +29,7 @@ def run_main(
     top_p: float = 1.0,
     max_seq_len: int = 256,
     max_batch_size: int = 4,
-    max_gen_len: Optional[int] = 200,
+    max_gen_len: Optional[int] = 100,
     model_parallel_size: Optional[int] = None,
 ):
     generator = Llama.build(
@@ -44,6 +44,7 @@ def run_main(
         img = f.read()
 
     prompt = [
+        "Let's write a poem.",
         RawMediaItem(type="image", data=BytesIO(img)),
         "If I had to write a haiku for this one",
     ]
