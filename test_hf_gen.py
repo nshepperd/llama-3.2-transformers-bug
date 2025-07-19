@@ -3,6 +3,7 @@ import torch
 from PIL import Image
 from transformers import MllamaForConditionalGeneration, AutoProcessor
 import transformers
+import argparse
 
 def fixed_forward(
     self: transformers.models.mllama.modeling_mllama.MllamaCrossAttentionDecoderLayer,
@@ -49,8 +50,10 @@ def fixed_forward(
 
     return outputs
 
-use_fixed_forward = False
-if use_fixed_forward:
+parser = argparse.ArgumentParser()
+parser.add_argument('--fixed', action='store_true', help='Use the fixed implementation')
+args = parser.parse_args()
+if args.fixed:
     transformers.models.mllama.modeling_mllama.MllamaCrossAttentionDecoderLayer.forward = fixed_forward # type: ignore
 
 
