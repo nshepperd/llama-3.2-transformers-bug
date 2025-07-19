@@ -43,24 +43,21 @@ def run_main(
     with open("./llama-models/models/scripts/resources/dog.jpg", "rb") as f:
         img = f.read()
 
-    interleaved_contents = [
-        [
-            RawMediaItem(type="image", data=BytesIO(img)),
-            "If I had to write a haiku for this one",
-        ],
+    prompt = [
+        RawMediaItem(type="image", data=BytesIO(img)),
+        "If I had to write a haiku for this one",
     ]
 
-    for content in interleaved_contents:
-        result = generator.text_completion(
-            content,
-            max_gen_len=max_gen_len,
-            temperature=temperature,
-            top_p=top_p,
-        )
+    cprint(f"{prompt}")
+    result = generator.text_completion(
+        prompt,
+        max_gen_len=max_gen_len,
+        temperature=temperature,
+        top_p=top_p,
+    )
 
-        cprint(f"{content}", end="")
-        cprint(f"{result.generation}", color="yellow")
-        print("\n==================================\n")
+    cprint(f"{result.generation}", color="yellow")
+    print("\n==================================\n")
 
 
 def main():
